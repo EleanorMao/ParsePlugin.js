@@ -35,7 +35,7 @@ function parseEntry(base, params) {
     } else if (stats.isDirectory(base)) {
         var dir = diff(fs.readdirSync(base), params.ignore);
         dir.map(function(item) {
-            extend(output, parseEntry.call(null, path.join(base, item)));
+            extend(output, parseEntry.call(null, path.join(base, item), params));
         });
     }
     return output;
@@ -56,7 +56,7 @@ function findFile(file, params) {
         var allFiles = {};
         dir.map(function(item) {
             if (item === 'node_modules') return;
-            extend(allFiles, parseEntry(path.join(params.source, item)));
+            extend(allFiles, parseEntry(path.join(params.source, item), params));
         });
         for (var key in allFiles) {
             if (key === baseFile.name) {
